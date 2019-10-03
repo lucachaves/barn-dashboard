@@ -3,6 +3,7 @@ import time
 import sys
 import os
 from io import BytesIO
+import datetime
 
 class ImageFTPCollector:  
 
@@ -45,21 +46,32 @@ class ImageFTPCollector:
         last_jpg = filename
     return f'{dirname}/{last_jpg}'
 
-  def get_timestamp_file(self, dirname):
+  def get_datetime_file(self, dirname):
     files = []
     self.ftp.dir(dirname, files.append)
     tokens = files[0].split()
     time_str = ' '.join(tokens[0:2])
-    timestamp = time.strptime(time_str, '%m-%d-%y %I:%M%p')
-    return time.mktime(timestamp)
+    result = datetime.datetime.strptime(time_str, '%m-%d-%y %I:%M%p')
+    offset = datetime.datetime.now() - datetime.datetime.utcnow()
+    result = result + offset
+    return {
+      'date': result.strftime("%m/%d/%Y"),
+      'time': result.strftime("%H:%M"),
+      'full': result.strftime("%m/%d/%Y %H:%M"),
+      'timestamp': result.timestamp()
+    }
 
-  def get_last_jpeg(self):
-    path = self.get_last_jpeg_path()
-    time = self.get_timestamp_file(path)
+  def get_jpeg(self, path):
     figure = BytesIO()
     self.ftp.retrbinary(f'RETR {path}', figure.write)
     figure.seek(0)
+    return figure
+
+  def get_last_jpeg_info(self):
+    path = self.get_last_jpeg_path()
+    datetime = self.get_datetime_file(path)
     return {
-      'time': time,
-      'figure': figure
+      'camera': self.camera,
+      'path': path,
+      'datetime': datetime
     }

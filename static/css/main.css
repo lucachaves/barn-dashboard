@@ -1,4 +1,4 @@
-.barn-last-image {
+.last-barn-image img {
   transform: rotate(180deg);
-  width: 500px;
+  width: 100%;
 }

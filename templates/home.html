@@ -1,5 +1,21 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <img src="/barn/lastimage" alt="Last image" class="barn-last-image">
+  <div class="row">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Barn</h5>
+        </div>
+        <div class="card-body">
+          <div class="last-barn-image" style="min-height: 280px;">
+            <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Last image">
+          </div>
+          <hr class="mt-3 mb-2">
+          <div class="last-barn-datetime" style="min-height: 24px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sensor Data: CO2, Humidity, Light, Motion, Temperature -->
 {% endblock %}
