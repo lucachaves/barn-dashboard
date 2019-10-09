@@ -54,5 +54,5 @@ def set_response_headers(response):
   return response
 
 if __name__ == '__main__':
-  # load_prediction_model()
+  load_prediction_model()
   app.run(debug=True,host='0.0.0.0')

@@ -27,9 +27,12 @@ class SceneRecognition:
     raw_image = self.loadFrame(raw_image)
     raw_image = self.preProcessFrame(raw_image)
     raw_image = raw_image.reshape(1, self.img_height, self.img_width, 1)
-    # predictions = self.model.predict(raw_image)
-    predictions = [[0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 1.0000000e+00, 1.2892241e-21, 
-                   0.0000000e+00, 0.0000000e+00]]
+    predictions = self.model._make_predict_function(raw_image)
+    # predictions = [[0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 1.0000000e+00, 1.2892241e-21, 0.0000000e+00, 0.0000000e+00]]
     label_names = ['Normal situation', 'Aggression frontal', 'Aggression lateral',  'Aggression vertical', 'Aggression overtaking',  
                    'Curiosity', 'Queuing fewer',  'Queuing crowded', 'Drinking water',  'Low visibility']
-    return dict(zip(label_names, predictions[0]))
+    # return dict(zip(label_names, predictions[0]))
+    return {
+      'labels': label_names,
+      'predictions': predictions[0]
+    }
