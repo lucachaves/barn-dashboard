@@ -25,7 +25,10 @@ class SceneRecognition:
     frame = np.uint8(frame)
     return frame
 
-  def recognition(self, raw_image):
+  def prediction(self, raw_image):
+    raw_image = self.loadFrame(raw_image)
+    raw_image = self.preProcessFrame(raw_image)
+    raw_image = raw_image.reshape(1, self.img_height, self.img_width, 1)
     label_names = [
       'Normal situation', 
       'Aggression frontal', 
@@ -38,14 +41,7 @@ class SceneRecognition:
       'Drinking water', 
       'Low visibility'
     ]
-
-    raw_image = self.loadFrame(raw_image)
-    raw_image = self.preProcessFrame(raw_image)
-    raw_image = raw_image.reshape(1, self.img_height, self.img_width, 1)
     predictions = self.model.predict(raw_image)
-    # predictions = [np.array([0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 0.0000000e+00, 1.0000000e+00, 1.2892241e-21, 0.0000000e+00, 0.0000000e+00])]
-    # return dict(zip(label_names, predictions[0].tolist()))
-
     return {
       'labels': label_names,
       'predictions': predictions[0].tolist()

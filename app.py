@@ -4,11 +4,17 @@ from dotenv import load_dotenv
 from barn.image_ftp_collector import ImageFTPCollector
 from barn.scene_recognition import SceneRecognition
 
+<<<<<<< HEAD
 #from keras.models import load_model
 
 app = Flask(__name__)
 sr = None
 ftp = None
+=======
+app = Flask(__name__)
+ftp = None
+sceneRecognition = None
+>>>>>>> 1bb9111c02a0e353e20eba396d79f71f853054e9
 
 def load_dotfile_env():
   APP_ROOT = path.join(path.dirname(__file__), '..')
@@ -34,7 +40,11 @@ def last_image_file():
 def scene_recognition():
   raw_image_path = request.args.get('ftp')
   raw_image = ftp.get_jpeg(raw_image_path)
+<<<<<<< HEAD
   result = sr.recognition(raw_image)
+=======
+  result = sceneRecognition.prediction(raw_image)
+>>>>>>> 1bb9111c02a0e353e20eba396d79f71f853054e9
   return jsonify(result)
 
 @app.after_request
@@ -47,5 +57,9 @@ def set_response_headers(response):
 if __name__ == '__main__':
   load_dotfile_env()
   ftp = ImageFTPCollector(getenv('FTP_HOST'), getenv('FTP_USER'), getenv('FTP_PASSWORD'), '5C033BCPAGBC9CE')
+<<<<<<< HEAD
   sr = SceneRecognition('barn/models/scene_recognition_model.h5')
+=======
+  sceneRecognition = SceneRecognition('barn/models/scene_recognition_model.h5')
+>>>>>>> 1bb9111c02a0e353e20eba396d79f71f853054e9
   app.run(debug=True,host='0.0.0.0')

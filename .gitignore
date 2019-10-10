@@ -2,4 +2,4 @@
 **/__pycache__/
 **/.DS_Store
 temp/
-barn/models/
+barn/models/*.h5
