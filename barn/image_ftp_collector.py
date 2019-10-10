@@ -7,14 +7,18 @@ import datetime
 
 class ImageFTPCollector:  
 
-  def __init__(self, ftp_host, ftp_user, ftp_password, camera):
+  def __init__(self, host, user, password, camera):
     self.camera = camera
-    self.connect(ftp_host, ftp_user, ftp_password)
+    self.host = host
+    self.user = user
+    self.password = password
+    self.ftp = self.connect()
+    # print(f'FTP {self.host}', file=sys.stdout)
 
-  def connect(self, host, username, password):
-    ftp = FTP(host)
-    ftp.login(username, password)
-    self.ftp = ftp
+  def connect(self):
+    ftp = FTP(self.host)
+    ftp.login(self.user, self.password)
+    return ftp
 
   def get_last_folder(self, dirname):
     files = []
