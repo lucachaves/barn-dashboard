@@ -19,6 +19,7 @@ ftp_password = getenv('FTP_PASSWORD')
 def load_prediction_model():
   global model
   model = load_model('barn/models/scene_recognition_model.h5')
+  model._make_predict_function()
 
 @app.route('/')
 def home():
