@@ -1,7 +1,10 @@
 from barn.scene_recognition import SceneRecognition
+from barn.image_ftp_collector import ImageFTPCollector
 from keras.models import load_model
 from io import BytesIO
 from PIL import Image
+from os import getenv, path
+from dotenv import load_dotenv
 
 def create_test_image():
   file = BytesIO()
