@@ -16,7 +16,7 @@ function loadInfo(image) {
 function loadLastBarnImage(image) {
   lastBarnImage.src = `/barn/lastimage?ftp=${image.path}`
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
-  // setTimeout(requestLastBarnImage, 10000)
+  setTimeout(requestLastBarnImage, 10000)
 }
 
 function getLastBarnDatetime(image, camera) {

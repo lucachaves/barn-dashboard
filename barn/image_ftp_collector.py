@@ -7,18 +7,23 @@ import datetime
 
 class ImageFTPCollector:  
 
-  def __init__(self, ftp_host, ftp_user, ftp_password, camera):
+  def __init__(self, host, user, password, camera):
     self.camera = camera
-    self.connect(ftp_host, ftp_user, ftp_password)
+    self.host = host
+    self.user = user
+    self.password = password
+    print(f'FTP {self.host}', file=sys.stdout)
 
-  def connect(self, host, username, password):
-    ftp = FTP(host)
-    ftp.login(username, password)
-    self.ftp = ftp
+  def connect(self):
+    ftp = FTP(self.host)
+    ftp.login(self.user, self.password)
+    return ftp
 
   def get_last_folder(self, dirname):
     files = []
-    self.ftp.dir(dirname, files.append)
+    ftp = self.connect()
+    ftp.dir(dirname, files.append)
+    ftp.close()
     for file in files:
       tokens = file.split()
       if tokens[2] == '<DIR>':
@@ -38,7 +43,9 @@ class ImageFTPCollector:
     last_jpg = None
     dirname = self.get_most_recent_path()
     files = []
-    self.ftp.dir(dirname, files.append)
+    ftp = self.connect()
+    ftp.dir(dirname, files.append)
+    ftp.close()
     for file in files:
       tokens = file.split()
       filename = tokens[3]
@@ -48,7 +55,9 @@ class ImageFTPCollector:
 
   def get_datetime_file(self, dirname):
     files = []
-    self.ftp.dir(dirname, files.append)
+    ftp = self.connect()
+    ftp.dir(dirname, files.append)
+    ftp.close()
     tokens = files[0].split()
     time_str = ' '.join(tokens[0:2])
     result = datetime.datetime.strptime(time_str, '%m-%d-%y %I:%M%p')
@@ -63,8 +72,10 @@ class ImageFTPCollector:
 
   def get_jpeg(self, path):
     figure = BytesIO()
-    self.ftp.retrbinary(f'RETR {path}', figure.write)
+    ftp = self.connect()
+    ftp.retrbinary(f'RETR {path}', figure.write)
     figure.seek(0)
+    ftp.close()
     return figure
 
   def get_last_jpeg_info(self):
