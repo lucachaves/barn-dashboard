@@ -19,3 +19,6 @@ raw_image = create_test_image()
 instanceSeg = InstanceSegmentation(weight_path='barn/models/mask_rcnn_coco.h5')
 result = instanceSeg.predict(raw_image)
 print(result)
+
+#import matplotlib as plt
+#plt.pyplot.savefig('foo.png')

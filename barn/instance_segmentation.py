@@ -11,8 +11,6 @@ from matplotlib import pyplot
 # Image processing
 import cv2
 
-
-
 # deep learning
 from mrcnn.config import Config
 from mrcnn.model import MaskRCNN
