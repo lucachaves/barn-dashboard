@@ -1,8 +1,9 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="row">
-    <div class="col">
+  <div class="row card-board">
+    <!-- -->
+    <div class="col-6">
       <div class="card">
         <div class="card-header">
           <h5 class="m-0">Barn</h5>
@@ -16,7 +17,9 @@
         </div>
       </div>
     </div>
-    <div class="col">
+
+    <!-- -->
+    <div class="col-6">
       <div class="card">
         <div class="card-header">
           <h5 class="m-0">Scene Recognation</h5>
@@ -26,6 +29,55 @@
         </div>
       </div>
     </div>
+
+    <!-- -->
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Instance Segmentation (fake)</h5>
+        </div>
+        <div class="card-body">
+            <img src="{{ url_for('static', filename='img/fakeSegmentation.png') }}" alt="Last image" style="width: 100%">
+        </div>
+      </div>
+    </div>
+
+    <!-- -->
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Statistics</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="chartStatistics" width="400" height="230"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- -->
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">IoT sensors (fake)</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="chartSensors" width="400" height="230"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- -->
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Classes over time (fake)</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="chartClasses" width="400" height="230"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
+  <br>
   <!-- Sensor Data: CO2, Humidity, Light, Motion, Temperature -->
 {% endblock %}

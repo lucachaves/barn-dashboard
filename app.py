@@ -3,6 +3,7 @@ from flask import Flask, render_template, send_file, jsonify, request
 from dotenv import load_dotenv
 from barn.image_ftp_collector import ImageFTPCollector
 from barn.scene_recognition import SceneRecognition
+#from barn.azure_sensors import sensorRequest
 
 app = Flask(__name__)
 ftp = None
@@ -34,6 +35,11 @@ def scene_recognition():
   raw_image = ftp.get_jpeg(raw_image_path)
   result = sceneRecognition.prediction(raw_image)
   return jsonify(result)
+
+#@app.route('/barn/sensorrequest')
+#def sensor_request():
+#  result = sensorRequest()
+#  return jsonify(result)
 
 @app.after_request
 def set_response_headers(response):
