@@ -16,7 +16,7 @@ function loadInfo(image) {
 function loadLastBarnImage(image) {
   lastBarnImage.src = `/barn/lastimage?ftp=${image.path}`
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
-  setTimeout(requestLastBarnImage, 5000)
+  setTimeout(requestLastBarnImage, 5000) // 5 seconds
 }
 
 function getLastBarnDatetime(image, camera) {
@@ -107,24 +107,30 @@ function chartStatistics() {
   })
 }
 
-function chartSensors() {
+function loadSensorDatas() {
+  fetch('/barn/sensorrequest')
+    .then(res => res.json())
+    .then(json => chartSensors(json))
+}
+
+function chartSensors(data) {
   const ctx = document.getElementById('chartSensors')
   chart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: [50,60,70,75,80,85,90,95,98,99],
+      labels: data.timestamp,
       datasets: [{ 
-          data: [86,114,106,106,107,111,133,221,783,2478],
+          data: data.temperature,
           label: "Temperature",
           borderColor: "#3e95cd",
           fill: false
         }, { 
-          data: [282,350,411,502,635,809,947,1402,3700,5267],
+          data: data.humidity,
           label: "Humidity",
           borderColor: "#8e5ea2",
           fill: false
         }, { 
-          data: [168,170,178,190,203,276,408,547,675,734],
+          data: data.motion,
           label: "Motion",
           borderColor: "#3cba9f",
           fill: false
@@ -134,6 +140,7 @@ function chartSensors() {
     options: {
     }
   });
+  setTimeout(loadSensorDatas, 900000) // 15 minutes
 }
 
 function chartClasses() {
@@ -200,8 +207,7 @@ function chartClasses() {
   });
 }
 
-
 requestLastBarnImage()
 chartStatistics()
-chartSensors()
+loadSensorDatas()
 chartClasses()

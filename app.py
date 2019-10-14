@@ -3,11 +3,13 @@ from flask import Flask, render_template, send_file, jsonify, request
 from dotenv import load_dotenv
 from barn.image_ftp_collector import ImageFTPCollector
 from barn.scene_recognition import SceneRecognition
-#from barn.azure_sensors import sensorRequest
+from barn.barn_sensors import BarnSensors
 
 app = Flask(__name__)
 ftp = None
-sceneRecognition = None
+scene_recognition = None
+barn_sensors = None
+
 
 def load_dotfile_env():
   APP_ROOT = path.join(path.dirname(__file__), '..')
@@ -33,13 +35,13 @@ def last_image_file():
 def scene_recognition():
   raw_image_path = request.args.get('ftp')
   raw_image = ftp.get_jpeg(raw_image_path)
-  result = sceneRecognition.prediction(raw_image)
+  result = scene_recognition.prediction(raw_image)
   return jsonify(result)
 
-#@app.route('/barn/sensorrequest')
-#def sensor_request():
-#  result = sensorRequest()
-#  return jsonify(result)
+@app.route('/barn/sensorrequest')
+def sensor_request():
+ result = barn_sensors.get_data('2019-10-10T13:07:10.073Z', 'A81758FFFE03580A')
+ return result
 
 @app.after_request
 def set_response_headers(response):
@@ -51,5 +53,6 @@ def set_response_headers(response):
 if __name__ == '__main__':
   load_dotfile_env()
   ftp = ImageFTPCollector(getenv('FTP_HOST'), getenv('FTP_USER'), getenv('FTP_PASSWORD'), '5C033BCPAGBC9CE')
-  sceneRecognition = SceneRecognition('barn/models/scene_recognition_model.h5')
+  scene_recognition = SceneRecognition('barn/models/scene_recognition_model.h5')
+  barn_sensors = BarnSensors(getenv('AZURE_STORAGE_ACCOUNT'), getenv('AZURE_ACCESS_KEY'), getenv('AZURE_TABLE_NAME'), getenv('AZURE_API_VERSION'))
   app.run(debug=True,host='0.0.0.0')
