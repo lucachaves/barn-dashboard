@@ -36,7 +36,7 @@ class BarnSensors:
       'timestamp': timestamp
     }
 
-  def request(self, start, sensor_id):
+  def request(self, sensor_id, start='2019-10-10T13:07:10.073Z'):
     request_time = datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
     string_to_sign = f'{request_time}\n/{self.storage_account}/{self.table_name}'
     signed_string = base64.b64encode(hmac.new(base64.b64decode(self.access_key), msg=string_to_sign.encode('utf-8'), digestmod=hashlib.sha256).digest()).decode()
