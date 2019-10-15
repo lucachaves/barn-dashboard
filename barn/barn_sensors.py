@@ -13,12 +13,12 @@ class BarnSensors:
     self.table_name = table_name
     self.api_version = api_version
 
-  def get_data(self, start, sensor_id):
+  def get_data(self, sensor_id):
     temperature = []
     humidity = []
     motion = []
     timestamp = []
-    response_text = self.request(start, sensor_id)
+    response_text = self.request(sensor_id)
     datas = json.loads(response_text)
     for data in datas['value'][-10:]:
       temperature.append(data['temperature'])
@@ -36,7 +36,8 @@ class BarnSensors:
       'timestamp': timestamp
     }
 
-  def request(self, sensor_id, start='2019-10-10T13:07:10.073Z'):
+  def request(self, sensor_id):
+    start='2019-10-10T13:07:10.073Z'
     request_time = datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
     string_to_sign = f'{request_time}\n/{self.storage_account}/{self.table_name}'
     signed_string = base64.b64encode(hmac.new(base64.b64decode(self.access_key), msg=string_to_sign.encode('utf-8'), digestmod=hashlib.sha256).digest()).decode()

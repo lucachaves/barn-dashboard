@@ -43,8 +43,8 @@ def scene_recognition():
 def instance_segmentation():
   raw_image_path = request.args.get('ftp')
   raw_image = ftp.get_jpeg(raw_image_path)
-  raw_image = instanceSeg.predict(raw_image)
-  return send_file(raw_image, mimetype='image/jpeg')
+  result = instance_seg.predict(raw_image)
+  return send_file(result[0], mimetype='image/jpeg')
 
 @app.route('/barn/sensorrequest')
 def sensor_request():

@@ -34,10 +34,14 @@
     <div class="col-6">
       <div class="card">
         <div class="card-header">
-          <h5 class="m-0">Instance Segmentation (fake)</h5>
+          <h5 class="m-0">Instance Segmentation</h5>
         </div>
         <div class="card-body">
-            <img src="{{ url_for('static', filename='img/fakeSegmentation.png') }}" alt="Last image" style="width: 100%">
+          <div class="last-segmentation-image" style="min-height: 280px;">
+            <img src="{{ url_for('static', filename='img/placeholder.jpg') }}" alt="Last image">
+          </div>
+          <hr class="mt-3 mb-2">
+          <div class="last-segmentation-features" style="min-height: 24px"></div>
         </div>
       </div>
     </div>

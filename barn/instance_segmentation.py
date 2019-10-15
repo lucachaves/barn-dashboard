@@ -10,6 +10,8 @@ from matplotlib import pyplot
 
 # Image processing
 import cv2
+from io import BytesIO
+
 
 # deep learning
 from mrcnn.config import Config
@@ -48,6 +50,7 @@ class InstanceSegmentation:
                         'teddy bear', 'hair drier', 'toothbrush']
 
     self.rcnn = MaskRCNN(mode='inference', model_dir='./', config=config()) # define the model
+    self.rcnn.keras_model._make_predict_function()
     self.rcnn.load_weights(weight_path, by_name=True) # load coco model weights
 
   def _display_instances(self, image, boxes, masks, class_ids, class_names,
@@ -134,8 +137,9 @@ class InstanceSegmentation:
     if verbose:
       plt.show()
     #   return ax
-    buff = io.BytesIO()
-    plt.savefig(buff, format="png")
+    buff = BytesIO()
+    plt.savefig(buff, format="png", bbox_inches='tight', pad_inches=-0.1, orientation= 'landscape')
+    buff.seek(0)
     return buff
 
   def _loadFrame(self, frame):
@@ -205,7 +209,7 @@ class InstanceSegmentation:
                         results[0]['class_ids'],
                         self.class_names, 
                         results[0]['scores'],
-                        title='Frame instance segmentation',
+                        #title='Frame instance segmentation',
                         verbose=verbose,
                         save_img=False)
     features = {}
@@ -214,5 +218,4 @@ class InstanceSegmentation:
     features['n_cows'] = self._countCows(results[0])
     features['n_humans'] = self._countHumans(results[0])
 
-    #   return img, features
-    return img
+    return img, features

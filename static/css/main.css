@@ -1,8 +1,10 @@
 .last-barn-image img {
-  transform: rotate(180deg);
-  width: 100%;
+  transform: scaleY(-1);
 }
 
+.last-barn-image img, .last-segmentation-image img {
+  width: 100%;
+}
 
 .card-board > * {
   margin-top: 10px;

@@ -1,5 +1,6 @@
 const lastBarnImage = document.querySelector('.last-barn-image img')
 const lastBarnDatetime = document.querySelector('.last-barn-datetime')
+const lastSegmentationImage = document.querySelector('.last-segmentation-image img')
 let chart 
 
 function requestLastBarnImage() {
@@ -15,8 +16,9 @@ function loadInfo(image) {
 
 function loadLastBarnImage(image) {
   lastBarnImage.src = `/barn/lastimage?ftp=${image.path}`
+  lastSegmentationImage.src = `/barn/instancesegmentation?ftp=${image.path}`
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
-  setTimeout(requestLastBarnImage, 5000) // 5 seconds
+  //setTimeout(requestLastBarnImage, 5000) // 5 seconds
 }
 
 function getLastBarnDatetime(image, camera) {
@@ -140,7 +142,7 @@ function chartSensors(data) {
     options: {
     }
   });
-  setTimeout(loadSensorDatas, 900000) // 15 minutes
+  //setTimeout(loadSensorDatas, 900000) // 15 minutes
 }
 
 function chartClasses() {
