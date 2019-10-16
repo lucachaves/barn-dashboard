@@ -12,7 +12,6 @@ class ImageFTPCollector:
     self.host = host
     self.user = user
     self.password = password
-    print(f'FTP {self.host}', file=sys.stdout)
 
   def connect(self):
     ftp = FTP(self.host)
