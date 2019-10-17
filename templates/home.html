@@ -2,7 +2,7 @@
 
 {% block content %}
   <div class="row card-board">
-    <!-- -->
+    <!-- Barn -->
     <div class="col-6">
       <div class="card">
         <div class="card-header">
@@ -18,7 +18,7 @@
       </div>
     </div>
 
-    <!-- -->
+    <!-- Scene Recognation -->
     <div class="col-6">
       <div class="card">
         <div class="card-header">
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <!-- -->
+    <!-- Instance Segmentation -->
     <div class="col-6">
       <div class="card">
         <div class="card-header">
@@ -46,7 +46,19 @@
       </div>
     </div>
 
-    <!-- -->
+    <!-- Classes over time -->
+    <div class="col-6">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="m-0">Classes over time</h5>
+        </div>
+        <div class="card-body">
+            <canvas id="chartClasses" width="400" height="230"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics -->
     <div class="col-6">
       <div class="card">
         <div class="card-header">
@@ -58,7 +70,7 @@
       </div>
     </div>
 
-    <!-- -->
+    <!-- IoT sensors -->
     <div class="col-6">
       <div class="card">
         <div class="card-header">
@@ -66,18 +78,6 @@
         </div>
         <div class="card-body">
             <canvas id="chartSensors" width="400" height="230"></canvas>
-        </div>
-      </div>
-    </div>
-
-    <!-- -->
-    <div class="col-6">
-      <div class="card">
-        <div class="card-header">
-          <h5 class="m-0">Classes over time (fake)</h5>
-        </div>
-        <div class="card-body">
-            <canvas id="chartClasses" width="400" height="230"></canvas>
         </div>
       </div>
     </div>

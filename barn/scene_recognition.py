@@ -30,19 +30,16 @@ class SceneRecognition:
     raw_image = self.preProcessFrame(raw_image)
     raw_image = raw_image.reshape(1, self.img_height, self.img_width, 1)
     label_names = [
-      'Normal situation', 
-      'Aggression frontal', 
-      'Aggression lateral', 
-      'Aggression vertical', 
-      'Aggression overtaking', 
-      'Curiosity', 
-      'Queuing fewer', 
-      'Queuing crowded', 
-      'Drinking water', 
-      'Low visibility'
+      'normal_situation', 
+      'aggression_frontal', 
+      'aggression_lateral', 
+      'aggression_vertical', 
+      'aggression_overtaking', 
+      'curiosity', 
+      'queuing_fewer', 
+      'queuing_crowded', 
+      'drinking_water', 
+      'low_visibility'
     ]
     predictions = self.model.predict(raw_image)
-    return {
-      'labels': label_names,
-      'predictions': predictions[0].tolist()
-    }
+    return dict(zip(label_names, predictions[0].tolist()))

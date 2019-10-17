@@ -27,20 +27,37 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 class Image(db.Model):
-  __tablename__ = 'images'
+  # __tablename__ = 'image'
   id = db.Column(db.Integer, primary_key=True)
-  path = db.Column(db.String(80), unique=True, nullable=False)
-  camera = db.Column(db.String(80), unique=False, nullable=False)
-  datetime = db.Column(db.String(80), unique=True, nullable=False)
+  path = db.Column(db.String(255), unique=True, nullable=False)
+  camera = db.Column(db.String(255), unique=False, nullable=False)
+  datetime = db.Column(db.DateTime, unique=False, nullable=False)
 
-  def __init__(self, path, camera, datetime):
-        self.path = path
-        self.camera = camera
-        self.datetime = datetime
-
-class ImageSchema(ma.Schema):
+class ImageSchema(ma.ModelSchema):
   class Meta:
-    fields = ('path', 'camera', 'datetime')
+    model = Image
+    # fields = ('id', 'path', 'camera', 'datetime')
+
+class Recognition(db.Model):
+  # __tablename__ = 'recognition'
+  id = db.Column(db.Integer, primary_key=True)
+  normal_situation = db.Column(db.Float, unique=False, nullable=False)
+  aggression_frontal = db.Column(db.Float, unique=False, nullable=False) 
+  aggression_lateral = db.Column(db.Float, unique=False, nullable=False) 
+  aggression_vertical = db.Column(db.Float, unique=False, nullable=False) 
+  aggression_overtaking = db.Column(db.Float, unique=False, nullable=False) 
+  curiosity = db.Column(db.Float, unique=False, nullable=False) 
+  queuing_fewer = db.Column(db.Float, unique=False, nullable=False) 
+  queuing_crowded = db.Column(db.Float, unique=False, nullable=False) 
+  drinking_water = db.Column(db.Float, unique=False, nullable=False) 
+  low_visibility = db.Column(db.Float, unique=False, nullable=False)
+  image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
+  image = db.relationship("Image", backref="recognition")
+
+class RecognitionSchema(ma.ModelSchema):
+  class Meta:
+    model = Recognition
+  image = ma.Nested(ImageSchema)
 
 db.create_all()
 db.session.commit()
@@ -49,44 +66,64 @@ db.session.commit()
 def home():
   return render_template('home.html')
 
-@app.route('/barn/lastimage/info')
-def last_image_info():
-  img_info = ftp.get_last_jpeg_info()
-  image = Image(path=img_info['path'], camera=img_info['camera'], datetime=img_info['datetime'])
-  db.session.add(image)
-  db.session.commit()
-  return jsonify(img_info)
-
-@app.route('/barn/lastimage')
-def last_image_file():
-  raw_image_path = request.args.get('ftp')
-  raw_image = ftp.get_jpeg(raw_image_path)
-  return send_file(raw_image, mimetype='image/jpeg')
-
-@app.route('/barn/scenerecognition')
-def scene_recognition_image():
-  raw_image_path = request.args.get('ftp')
-  raw_image = ftp.get_jpeg(raw_image_path)
-  result = scene_recognition.prediction(raw_image)
+@app.route('/barn/images/last/info')
+def get_last_image_info():
+  info = ftp.get_last_jpeg_info()
+  image = Image.query.filter_by(path=info['path']).first()
+  if image is None:
+    image = Image(path=info['path'], camera=info['camera'], datetime=info['datetime'])
+    db.session.add(image)
+    db.session.commit()
+  image_schema = ImageSchema(many=False)
+  result = image_schema.dump(image)
   return jsonify(result)
 
-@app.route('/barn/instancesegmentation')
-def instance_segmentation_image():
-  raw_image_path = request.args.get('ftp')
-  raw_image = ftp.get_jpeg(raw_image_path)
-  result = instance_segmentation.predict(raw_image)
-  return send_file(result[0], mimetype='image/jpeg')
-
-@app.route('/barn/images')
-def test():
+@app.route('/barn/images/info')
+def get_images_info():
   images = Image.query.all()
   image_schema = ImageSchema(many=True)
   result = image_schema.dump(images)
   return jsonify(result)
 
-@app.route('/barn/sensorrequest')
-def sensor_request():
- result = barn_sensors.get_data('A81758FFFE03580D')
+@app.route('/barn/images/<id>')
+def get_images_file(id):
+  image = Image.query.get(id)
+  raw_image = ftp.get_jpeg(image.path)
+  return send_file(raw_image, mimetype='image/jpeg')
+
+@app.route('/barn/scenerecognition/<id>')
+def get_images_scene_recognition_specific(id):
+  image = Image.query.get(id)
+  recognition = Recognition.query.filter_by(image_id=image.id).first()
+  if recognition is None:
+    raw_image = ftp.get_jpeg(image.path)
+    result = scene_recognition.prediction(raw_image)
+    recognition = Recognition(normal_situation=result['normal_situation'], aggression_frontal=result['aggression_frontal'], aggression_lateral=result['aggression_lateral'], aggression_vertical=result['aggression_vertical'], aggression_overtaking=result['aggression_overtaking'], curiosity=result['curiosity'], queuing_fewer=result['queuing_fewer'], queuing_crowded=result['queuing_crowded'], drinking_water=result['drinking_water'], low_visibility=result['low_visibility'], image=image)
+    db.session.add(recognition)
+    db.session.commit()
+  recognition_schema = RecognitionSchema(many=False)
+  result = recognition_schema.dump(recognition)
+  return jsonify(result)
+
+@app.route('/barn/scenerecognition')
+def get_images_scene_recognition():
+  count = Recognition.query.count()
+  offset = count - 10 if count - 10 >= 0 else 0
+  recognitions = Recognition.query.offset(offset).limit(10).all()
+  recognition_schema = RecognitionSchema(many=True)
+  result = recognition_schema.dump(recognitions)
+  return jsonify(result)
+
+@app.route('/barn/instancesegmentation/<id>')
+def get_images_instance_segmentation(id):
+  image = Image.query.get(id)
+  raw_image = ftp.get_jpeg(image.path)
+  result = instance_segmentation.predict(raw_image)
+  return send_file(result[0], mimetype='image/jpeg')
+
+@app.route('/barn/sensors/<id>')
+def get_sensor_request(id):
+ result = barn_sensors.get_data(id)
  return result
 
 @app.after_request
@@ -105,7 +142,7 @@ if __name__ == '__main__':
   scene_recognition = SceneRecognition('barn/prediction_models/scene_recognition_model.h5')
   
   # Instance Segmentation
-  instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
+  # instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
   
   # Barn Sensors
   barn_sensors = BarnSensors(getenv('AZURE_STORAGE_ACCOUNT'), getenv('AZURE_ACCESS_KEY'), getenv('AZURE_TABLE_NAME'), getenv('AZURE_API_VERSION'))
