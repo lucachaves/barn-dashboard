@@ -35,7 +35,6 @@ class Image(db.Model):
 class ImageSchema(ma.ModelSchema):
   class Meta:
     model = Image
-    # fields = ('id', 'path', 'camera', 'datetime')
 
 class Recognition(db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -70,10 +69,6 @@ class SegmentationSchema(ma.ModelSchema):
   class Meta:
     model = Segmentation
   image = ma.Nested(ImageSchema)
-
-# class Distance(db.Model):
-#   id = db.Column(db.Integer, primary_key=True)
-#   distance = db.Column(db.Integer, nullable=False)
 
 db.create_all()
 db.session.commit()
@@ -146,7 +141,6 @@ def get_image_instance_segmentation(id):
   result = instance_segmentation.predict(raw_image)
   segmentation = Segmentation.query.filter_by(image_id=image.id).first()
   if segmentation is None:
-    print(f"########## {result[1]['distance_array']}", file=sys.stdout)
     segmentation = Segmentation(is_milking=result[1]['is_milking'], distance_array=str(result[1]['distance_array']), n_cows=result[1]['n_cows'], n_humans=result[1]['n_humans'], image=image)
     db.session.add(segmentation)
     db.session.commit()
@@ -181,7 +175,7 @@ if __name__ == '__main__':
   scene_recognition = SceneRecognition('barn/prediction_models/scene_recognition_model.h5')
   
   # Instance Segmentation
-  # instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
+  instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
   
   # Barn Sensors
   barn_sensors = BarnSensors(getenv('AZURE_STORAGE_ACCOUNT'), getenv('AZURE_ACCESS_KEY'), getenv('AZURE_TABLE_NAME'), getenv('AZURE_API_VERSION'))
