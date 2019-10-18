@@ -56,8 +56,8 @@ class ImageFTPCollector:
   def get_datetime_file(self, dirname):
     time_str = re.sub(r".*\/(\d+)-(\d+)-(\d+)\/\d+\/jpg\/(\d+)\/(\d+)\/(\d+).*", r"\1-\2-\3 \4:\5:\6", dirname)
     result = datetime.datetime.strptime(time_str, '%Y-%m-%d %H:%M:%S')
-    offset = datetime.datetime.now() - datetime.datetime.utcnow()
-    result = result + offset
+    # offset = datetime.datetime.now() - datetime.datetime.utcnow()
+    # result = result + offset
     return result
 
   def get_jpeg(self, path):
