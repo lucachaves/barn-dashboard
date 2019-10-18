@@ -27,7 +27,6 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
 class Image(db.Model):
-  # __tablename__ = 'image'
   id = db.Column(db.Integer, primary_key=True)
   path = db.Column(db.String(255), unique=True, nullable=False)
   camera = db.Column(db.String(255), unique=False, nullable=False)
@@ -39,7 +38,6 @@ class ImageSchema(ma.ModelSchema):
     # fields = ('id', 'path', 'camera', 'datetime')
 
 class Recognition(db.Model):
-  # __tablename__ = 'recognition'
   id = db.Column(db.Integer, primary_key=True)
   normal_situation = db.Column(db.Float, unique=False, nullable=False)
   aggression_frontal = db.Column(db.Float, unique=False, nullable=False) 
@@ -58,6 +56,24 @@ class RecognitionSchema(ma.ModelSchema):
   class Meta:
     model = Recognition
   image = ma.Nested(ImageSchema)
+
+class Segmentation(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  is_milking = db.Column(db.Boolean, nullable=False)
+  distance_array = db.Column(db.String(255), nullable=False)
+  n_cows = db.Column(db.Integer, nullable=False)
+  n_humans = db.Column(db.Integer, nullable=False)
+  image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
+  image = db.relationship("Image", backref="segmentation")
+
+class SegmentationSchema(ma.ModelSchema):
+  class Meta:
+    model = Segmentation
+  image = ma.Nested(ImageSchema)
+
+# class Distance(db.Model):
+#   id = db.Column(db.Integer, primary_key=True)
+#   distance = db.Column(db.Integer, nullable=False)
 
 db.create_all()
 db.session.commit()
@@ -91,6 +107,15 @@ def get_images_file(id):
   raw_image = ftp.get_jpeg(image.path)
   return send_file(raw_image, mimetype='image/jpeg')
 
+@app.route('/barn/scenerecognition')
+def get_images_scene_recognition():
+  count = Recognition.query.count()
+  offset = count - 10 if count - 10 >= 0 else 0
+  recognitions = Recognition.query.offset(offset).limit(10).all()
+  recognition_schema = RecognitionSchema(many=True)
+  result = recognition_schema.dump(recognitions)
+  return jsonify(result)
+
 @app.route('/barn/scenerecognition/<id>')
 def get_images_scene_recognition_specific(id):
   image = Image.query.get(id)
@@ -105,21 +130,35 @@ def get_images_scene_recognition_specific(id):
   result = recognition_schema.dump(recognition)
   return jsonify(result)
 
-@app.route('/barn/scenerecognition')
-def get_images_scene_recognition():
-  count = Recognition.query.count()
+@app.route('/barn/instancesegmentation')
+def get_instance_segmentation():
+  count = Segmenation.query.count()
   offset = count - 10 if count - 10 >= 0 else 0
-  recognitions = Recognition.query.offset(offset).limit(10).all()
-  recognition_schema = RecognitionSchema(many=True)
-  result = recognition_schema.dump(recognitions)
+  segmentations = Segmenation.query.offset(offset).limit(10).all()
+  segmentation_schema = SegmenationSchema(many=True)
+  result = segmentation_schema.dump(segmentations)
   return jsonify(result)
 
-@app.route('/barn/instancesegmentation/<id>')
-def get_images_instance_segmentation(id):
+@app.route('/barn/instancesegmentation/<id>/image')
+def get_image_instance_segmentation(id):
   image = Image.query.get(id)
   raw_image = ftp.get_jpeg(image.path)
   result = instance_segmentation.predict(raw_image)
+  segmentation = Segmentation.query.filter_by(image_id=image.id).first()
+  if segmentation is None:
+    print(f"########## {result[1]['distance_array']}", file=sys.stdout)
+    segmentation = Segmentation(is_milking=result[1]['is_milking'], distance_array=str(result[1]['distance_array']), n_cows=result[1]['n_cows'], n_humans=result[1]['n_humans'], image=image)
+    db.session.add(segmentation)
+    db.session.commit()
   return send_file(result[0], mimetype='image/jpeg')
+
+@app.route('/barn/instancesegmentation/<id>/features')
+def get_features_instance_segmentation(id):
+  image = Image.query.get(id)
+  segmentation = Segmentation.query.filter_by(image_id=image.id).first()
+  segmentation_schema = SegmentationSchema(many=False)
+  result = segmentation_schema.dump(segmentation)
+  return jsonify(result)
 
 @app.route('/barn/sensors/<id>')
 def get_sensor_request(id):

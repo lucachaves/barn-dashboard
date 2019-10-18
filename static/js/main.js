@@ -1,6 +1,7 @@
 const lastBarnImage = document.querySelector('.last-barn-image img')
 const lastBarnDatetime = document.querySelector('.last-barn-datetime')
 const lastSegmentationImage = document.querySelector('.last-segmentation-image img')
+const lastSegmentationFeatures = document.querySelector('.last-segmentation-features')
 const scene_recognition_labels = [
   "Normal situation",
   "Aggression frontal",
@@ -36,9 +37,10 @@ function loadInfo(image) {
 // Last Barn Image
 function loadLastBarnImage(image) {
   lastBarnImage.src = `/barn/images/${image.id}`
-  lastSegmentationImage.src = `/barn/instancesegmentation/${image.id}`
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
-  // setTimeout(requestBarnInfo, 5000) // 5 seconds
+  lastSegmentationImage.src = `/barn/instancesegmentation/${image.id}/image`
+  lastSegmentationImage.addEventListener('load', () => loadLastInstanceSegmentation(image.id))
+  setTimeout(requestBarnInfo, 20000) // 20 seconds
 }
 
 function getLastBarnDatetime(datetime, camera) {
@@ -212,6 +214,22 @@ function chartStatistics() {
       }
     }
   })
+}
+
+// Instance segmentation
+function loadLastInstanceSegmentation(id) {
+  fetch(`/barn/instancesegmentation/${id}/features`)
+    .then(res => res.json())
+    .then(json => updateLastInstanceSegmentationFeatures(json))
+}
+
+function updateLastInstanceSegmentationFeatures(data) {
+  lastSegmentationFeatures.innerHTML = `<i class="fas fa-wine-bottle"></i>
+   <span class="image-milk">${data.isMilk ? 'A cow is milking' : 'No cow is milking'}</span>
+   <i class="fas fa-horse pl-4"></i>
+   <span class="image-cows">${data.n_cows}</span>
+   <i class="fas fa-male pl-4"></i>
+   <span class="image-humans">${data.n_humans}</span>`
 }
 
 // Sensors
