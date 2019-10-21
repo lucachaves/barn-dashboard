@@ -40,7 +40,7 @@ function loadLastBarnImage(image) {
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
   lastSegmentationImage.src = `/barn/instancesegmentation/${image.id}/image`
   lastSegmentationImage.addEventListener('load', () => loadLastInstanceSegmentation(image.id))
-  setTimeout(requestBarnInfo, 20000) // 20 seconds
+  setTimeout(requestBarnInfo, 60000) // 1 minute
 }
 
 function getLastBarnDatetime(datetime, camera) {

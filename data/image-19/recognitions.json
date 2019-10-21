@@ -1,0 +1,192 @@
+[
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 7.92818e-29, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.37173e-26, 
+      "drinking_water": 0.0, 
+      "id": 10, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:04:23", 
+        "id": 10, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/04/23[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 1.0, 
+      "queuing_fewer": 4.72997e-33
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 11, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:04:29", 
+        "id": 11, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/04/29[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 5.40229e-12, 
+      "queuing_fewer": 1.82423e-08
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 0.318265, 
+      "drinking_water": 0.0, 
+      "id": 12, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:04:41", 
+        "id": 12, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/04/41[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 1.52505e-26, 
+      "queuing_fewer": 0.681735
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 13, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:04:47", 
+        "id": 13, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/04/47[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 2.42997e-33, 
+      "queuing_fewer": 1.82375e-28
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 14, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:04:56", 
+        "id": 14, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/04/56[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 0.0, 
+      "queuing_fewer": 3.9466e-13
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 15, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:05:44", 
+        "id": 15, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/05/44[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 0.0, 
+      "queuing_fewer": 8.75671e-34
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 16, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:06:58", 
+        "id": 16, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/06/58[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 2.91258e-14, 
+      "queuing_fewer": 8.30439e-10
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 1.0, 
+      "drinking_water": 0.0, 
+      "id": 17, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:07:44", 
+        "id": 17, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/07/44[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 0.0, 
+      "queuing_fewer": 1.54171e-28
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 3.41224e-10, 
+      "drinking_water": 0.0, 
+      "id": 18, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:08:06", 
+        "id": 18, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/08/06[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 0.0, 
+      "queuing_fewer": 1.0
+    }, 
+    {
+      "aggression_frontal": 0.0, 
+      "aggression_lateral": 0.0, 
+      "aggression_overtaking": 0.0, 
+      "aggression_vertical": 0.0, 
+      "curiosity": 0.0, 
+      "drinking_water": 0.0, 
+      "id": 19, 
+      "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:12:24", 
+        "id": 19, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/12/24[M][0@0][0].jpg"
+      }, 
+      "low_visibility": 0.0, 
+      "normal_situation": 0.0, 
+      "queuing_crowded": 0.0, 
+      "queuing_fewer": 1.0
+    }
+]

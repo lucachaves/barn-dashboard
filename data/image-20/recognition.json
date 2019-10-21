@@ -1,0 +1,19 @@
+{
+    "id": 20, 
+    "aggression_frontal": 0.0, 
+    "aggression_lateral": 0.0, 
+    "aggression_overtaking": 0.0, 
+    "aggression_vertical": 0.0, 
+    "curiosity": 0.0, 
+    "drinking_water": 0.0, 
+    "low_visibility": 0.0, 
+    "normal_situation": 0.0, 
+    "queuing_crowded": 0.0, 
+    "queuing_fewer": 1.0,
+    "image": {
+        "camera": "5C033BCPAGBC9CE", 
+        "datetime": "2019-10-18T16:13:22", 
+        "id": 20, 
+        "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/13/22[M][0@0][0].jpg"
+    } 
+}

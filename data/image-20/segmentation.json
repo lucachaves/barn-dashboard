@@ -1,0 +1,14 @@
+{
+  "id": 4, 
+  "distance_array": "[854.4618189246374, 854.4618189246374]", 
+  "is_milking": false, 
+  "n_cows": 2, 
+  "n_humans": 0,
+  "image": {
+    "camera": "5C033BCPAGBC9CE", 
+    "datetime": "2019-10-18T16:13:22", 
+    "id": 20, 
+    "path": "/Barn/5C033BCPAGBC9CE/2019-10-18/001/jpg/13/13/22[M][0@0][0].jpg"
+  }
+}
+  
