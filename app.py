@@ -181,7 +181,7 @@ if __name__ == '__main__':
   scene_recognition = SceneRecognition('barn/prediction_models/scene_recognition_model.h5')
   
   # Instance Segmentation
-  # instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
+  instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
   
   # Barn Sensors
   barn_sensors = BarnSensors(getenv('AZURE_STORAGE_ACCOUNT'), getenv('AZURE_ACCESS_KEY'), getenv('AZURE_TABLE_NAME'), getenv('AZURE_API_VERSION'))
