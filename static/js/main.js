@@ -40,7 +40,7 @@ function loadLastBarnImage(image) {
   lastBarnDatetime.innerHTML = getLastBarnDatetime(image.datetime, image.camera)
   lastSegmentationImage.src = `/barn/instancesegmentation/${image.id}/image`
   lastSegmentationImage.addEventListener('load', () => loadLastInstanceSegmentation(image.id))
-  setTimeout(requestBarnInfo, 60000) // 1 minute
+  setTimeout(requestBarnInfo, 20000) // 1 minute
 }
 
 function getLastBarnDatetime(datetime, camera) {
@@ -60,6 +60,7 @@ function loadSceneRecognation(image) {
     .then(res => res.json())
     .then(json => chartSceneRecognation(json))
 }
+
 
 function chartSceneRecognation(data) {
   loadLatestSceneRecognation()
@@ -101,6 +102,36 @@ function chartSceneRecognation(data) {
       }
     }
   })
+
+  /*** NPL explanation ***/
+
+  n= values.indexOf(Math.max(...values))
+  const starters = ['Our Artificial Intelligence identified that ',
+  'Our Artificial Neural Network says that ',
+  'Using Machine Learning, we automaticly detected that ']
+
+  const translator = ['nothing special is happening',
+      'an frontal aggression is happening in this moment',
+      'an lateral aggression is happening now',
+      'an vertical aggression is happening',
+      'a cow is trying to overtake',
+      'a cow is putting the head inside the storage building',
+      'some cows are doing a queue to the Milking Machine',
+      'several cows are doing a queue to the Milking Machine',
+      'there is a cow driking water',
+      'this frame is from a night situation, and is better not try to interpret what we cannot see']
+  const frequency = [8.5, 0.2, 1.7, 0, 0, 9.5, 30.1, 24.9, 3.5, 21.7]
+
+  message = starters[Math.floor(Math.random()*starters.length)] + translator[n] + '. '
+
+  if (frequency[n]>8) message += 'This is a commom behaviour, '
+  else message += 'This is an odd behaviour, '
+
+  message += 'that happens ' + frequency[n] + '% of the time.'
+
+  $('#scene-recognition #explanation').html(message)
+  if (n==1 || n==2 || n==3) $('#scene-recognition #alert').show()
+  else $('#scene-recognition #alert').hide()
 }
 
 function loadLatestSceneRecognation() {

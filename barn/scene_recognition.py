@@ -28,6 +28,7 @@ class SceneRecognition:
   def prediction(self, raw_image):
     raw_image = self.loadFrame(raw_image)
     raw_image = self.preProcessFrame(raw_image)
+    raw_image = raw_image/255
     raw_image = raw_image.reshape(1, self.img_height, self.img_width, 1)
     label_names = [
       'normal_situation', 

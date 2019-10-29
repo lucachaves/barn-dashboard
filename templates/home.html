@@ -18,14 +18,18 @@
       </div>
     </div>
 
-    <!-- Scene Recognation -->
+    <!-- Scene Recognition -->
     <div class="col-6">
-      <div class="card">
+      <div id="scene-recognition" class="card">
         <div class="card-header">
-          <h5 class="m-0">Scene Recognation</h5>
+          <h5 class="m-0">Scene Recognition</h5>
         </div>
         <div class="card-body">
           <canvas id="chartSceneRecognation" width="400" height="230"></canvas>
+          <hr class="mt-3 mb-2">
+          <p id="explanation"></p>
+          <i id="alert" class="fas fa-exclamation-triangle"></i>
+          <i id="more-info" class="fas fa-question-circle" data-toggle="modal" data-target="#modal-more-info"></i>
         </div>
       </div>
     </div>
@@ -83,4 +87,36 @@
     </div>
   </div>
   <br>
+
+
+  <!-- More info Modal -->
+  <div class="modal fade" id="modal-more-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Behavioural classes</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ol start="0">
+            <li>Normal situation: nothing special is happening</li>
+            <li>Aggression frontal: an frontal aggression is happening (ex: head to head) </li>
+            <li>Aggression lateral: an lateral aggression is happening (ex: head to body)</li>
+            <li>Aggression vertical: an vertical aggression is happening (ex: one head on top of the other)</li>
+            <li>Aggression overtaking: a cow is trying to overtake</li>
+            <li>Curiosity: a cow is putting the head inside the storage building</li>
+            <li>Queuing fewer: some cows are doing a queue to the Milking Machine</li>
+            <li>Queuing crowded: several cows (more than 2) are doing a queue to the Milking Machine</li>
+            <li>Drinking water: there is a cow driking water</li>
+            <li>Low visibility: this frame is from a night situation, and is better not try to interpret what we cannot see</li>
+          </ol> 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
