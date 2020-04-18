@@ -156,7 +156,8 @@ def get_features_instance_segmentation(id):
 
 @app.route('/barn/sensors/<id>')
 def get_sensor_request(id):
- result = barn_sensors.get_data(id)
+ #result = barn_sensors.get_data(id)
+ result = barn_sensors.get_data_batch(id)
  return result
 
 @app.after_request
@@ -175,7 +176,7 @@ if __name__ == '__main__':
   scene_recognition = SceneRecognition('barn/prediction_models/scene_recognition_model.h5')
   
   # Instance Segmentation
-  # instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
+  instance_segmentation = InstanceSegmentation(weight_path='barn/prediction_models/mask_rcnn_coco.h5')
   
   # Barn Sensors
   barn_sensors = BarnSensors(getenv('AZURE_STORAGE_ACCOUNT'), getenv('AZURE_ACCESS_KEY'), getenv('AZURE_TABLE_NAME'), getenv('AZURE_API_VERSION'))

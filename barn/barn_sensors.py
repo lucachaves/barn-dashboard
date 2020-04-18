@@ -36,9 +36,26 @@ class BarnSensors:
       'timestamp': timestamp
     }
 
-  def request(self, sensor_id):
+  def get_data_batch(self, sensor_id):
+    dataset = []
+    starts = ['2019-09-01',
+              '2019-09-10',
+              '2019-09-20',
+              '2019-09-30',
+              '2019-10-09',
+              '2019-10-19',
+              '2019-10-29',
+              '2019-11-08',
+              '2019-11-18']
+    for start in starts:
+      response_text = self.request(
+          sensor_id,
+          start=start+'T00:00:00.000Z')
+      dataset = dataset + json.loads(response_text)['value']
+    return dataset
+    
+  def request(self, sensor_id, start='2019-10-10T13:07:10.073Z'):
     # TODO last 10 datas
-    start='2019-10-10T13:07:10.073Z'
     request_time = datetime.datetime.utcnow().strftime('%a, %d %b %Y %H:%M:%S GMT')
     string_to_sign = f'{request_time}\n/{self.storage_account}/{self.table_name}'
     signed_string = base64.b64encode(hmac.new(base64.b64decode(self.access_key), msg=string_to_sign.encode('utf-8'), digestmod=hashlib.sha256).digest()).decode()
